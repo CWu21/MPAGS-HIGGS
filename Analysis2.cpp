@@ -12,17 +12,17 @@
 #include "TAttLine.h"
 #include <TMarker.h>
 
-Double_t myFunc1(double x) {return -18.3*x+24*log(16.2*x+5.2)+8*log(2.1*x+0.9)-6.1-log(TMath::Factorial(24)*TMath::Factorial(8));}
-Double_t myFunc2(double x) {return -2*myFunc1(x)-2*6.4757;}
-Double_t myFunc3(double x) {return -5.1*x+24*log(0.9*x+5.2)+8*log(4.2*x+0.9)-6.1-log(TMath::Factorial(24)*TMath::Factorial(8));}
-Double_t myFunc4(double x) {return -2*myFunc3(x)-2*16.356;}
+Double_t myFunc1(double x) {return -18.3*x+24*log(16.2*x+6.1)+8*log(2.1*x+5.1)-6.1-5.1-log(TMath::Factorial(24)*TMath::Factorial(8));}
+Double_t myFunc2(double x) {return -2*myFunc1(x)+2*myFunc1(1.11924);}
+Double_t myFunc3(double x) {return -5.1*x+24*log(0.9*x+16.2+5.2)+8*log(4.2*x+2.1+0.9)-6.1-18.3-log(TMath::Factorial(24)*TMath::Factorial(8));}
+Double_t myFunc4(double x) {return -2*myFunc3(x)+2*myFunc3(1.21815);}
 Double_t myFunc5(double x, double y) {return -18.3*x-5.1*y-6.1+24*log(16.2*x+0.9*y+5.2)+8*log(2.1*x+4.2*y+0.9)-log(TMath::Factorial(24)*TMath::Factorial(8));}
 Double_t myFunc6(double x, double y) {return -2*myFunc5(x,y)-2*6.4757;}
 
-Double_t myFunc7(double x) {return -18.3*x+22.3*log(16.2*x+5.2)+7.2*log(2.1*x+0.9)-6.1;}
-Double_t myFunc8(double x) {return -2*myFunc7(x)+2*myFunc7(1.26606);}
-Double_t myFunc9(double x) {return -5.1*x+22.3*log(0.9*x+5.2)+7.2*log(4.2*x+0.9)-6.1;}
-Double_t myFunc10(double x) {return -2*myFunc9(x)+2*myFunc9(2.70086);}
+Double_t myFunc7(double x) {return -18.3*x+22.3*log(16.2*x+5.2+0.9)+7.2*log(2.1*x+0.9+4.2)-6.1-5.1;}
+Double_t myFunc8(double x) {return -2*myFunc7(x)+2*myFunc7(1);}
+Double_t myFunc9(double x) {return -5.1*x+22.3*log(0.9*x+5.2+16.2)+7.2*log(4.2*x+0.9+2.1)-6.1-18.3;}
+Double_t myFunc10(double x) {return -2*myFunc9(x)+2*myFunc9(1);}
 Double_t myFunc11(double x, double y) {return -18.3*x-5.1*y-6.1+22.3*log(16.2*x+0.9*y+5.2)+7.2*log(2.1*x+4.2*y+0.9);}
 Double_t myFunc12(double x, double y) {return -2*myFunc11(x,y)+2*myFunc11(1,1);}
 
@@ -32,13 +32,13 @@ void ggF(){
     TCanvas *c = new TCanvas();
     std::cout << "--------------ggF----------------- "<< std::endl;
 
-    TF1 *f1 = new TF1("f1","-myFunc1(x)",0.75,2.25);
-    TF1 *f2 = new TF1("f2","myFunc2(x)",0.75,2.25);
+    TF1 *f1 = new TF1("f1","-myFunc1(x)",0.5,2.25);
+    TF1 *f2 = new TF1("f2","myFunc2(x)",0.5,2.25);
 
-    double x0 = f1->GetMinimumX(0.75,2.25);
+    double x0 = f1->GetMinimumX(0.5,2.25);
     double ymin = -myFunc1(x0);
     std::cout << "x0 = " << x0<< ", ymin = " << ymin<< std::endl;
-    double xmin = f1->GetX(ymin+0.5,0.75,x0);
+    double xmin = f1->GetX(ymin+0.5,0.5,x0);
     double xmax = f1->GetX(ymin+0.5,x0,2.25);
     std::cout << "xmin = " << xmin<< ", xmax = " << xmax<< std::endl;
     std::cout << "negative uncertainty = " << x0-xmin<< ", positive uncertainty = " << xmax-x0<< std::endl;
@@ -49,7 +49,7 @@ void ggF(){
     f1->Draw();
     c->SaveAs("P2/1.png");
 
-    double xmin1 = f2->GetX(1,0.75,x0);
+    double xmin1 = f2->GetX(1,0.5,x0);
     double xmax1 = f2->GetX(1,x0,2.25);
     std::cout << "xmin = " << xmin1<< ", xmax = " << xmax1<< std::endl;
 
@@ -64,14 +64,14 @@ void VBF(){
     TCanvas *c = new TCanvas();
     std::cout << "--------------VBF----------------- "<< std::endl;
 
-    TF1 *f3 = new TF1("f3","-myFunc3(x)",2,5);
-    TF1 *f4 = new TF1("f4","myFunc4(x)",2,5);
+    TF1 *f3 = new TF1("f3","-myFunc3(x)",0,3);
+    TF1 *f4 = new TF1("f4","myFunc4(x)",0,3);
 
-    double x0 = f3->GetMinimumX(2,5);
+    double x0 = f3->GetMinimumX(0,3);
     double ymin = -myFunc3(x0);
     std::cout << "x0 = " << x0<< ", ymin = " << ymin<< std::endl;
-    double xmin = f3->GetX(ymin+0.5,2,x0);
-    double xmax = f3->GetX(ymin+0.5,x0,5);
+    double xmin = f3->GetX(ymin+0.5,0,x0);
+    double xmax = f3->GetX(ymin+0.5,x0,3);
     std::cout << "xmin = " << xmin<< ", xmax = " << xmax<< std::endl;
     std::cout << "negative uncertainty = " << x0-xmin<< ", positive uncertainty = " << xmax-x0<< std::endl;
 
@@ -81,8 +81,8 @@ void VBF(){
     f3->Draw();
     c->SaveAs("P2/3.png");
 
-    double xmin1 = f4->GetX(1,2,x0);
-    double xmax1 = f4->GetX(1,x0,5);
+    double xmin1 = f4->GetX(1,0,x0);
+    double xmax1 = f4->GetX(1,x0,3);
     std::cout << "xmin = " << xmin1<< ", xmax = " << xmax1<< std::endl;
 
     f4->GetXaxis()->SetTitle("#mu_{VBF}");
@@ -215,13 +215,13 @@ void ggF2(){
     TCanvas *c = new TCanvas();
     std::cout << "--------------GGF----------------- "<< std::endl;
 
-    TF1 *f1 = new TF1("f1","-myFunc7(x)",0.75,2.25);
-    TF1 *f2 = new TF1("f2","myFunc8(x)",0.75,2.25);
+    TF1 *f1 = new TF1("f1","-myFunc7(x)",0.5,2.25);
+    TF1 *f2 = new TF1("f2","myFunc8(x)",0.5,2.25);
 
-    double x0 = f1->GetMinimumX(0.75,2.25);
+    double x0 = f1->GetMinimumX(0.5,2.25);
     double ymin = -myFunc7(x0);
     std::cout << "x0 = " << x0<< ", ymin = " << ymin<< std::endl;
-    double xmin1 = f2->GetX(1,0.75,x0);
+    double xmin1 = f2->GetX(1,0.5,x0);
     double xmax1 = f2->GetX(1,x0,2.25);
     std::cout << "xmin = " << xmin1<< ", xmax = " << xmax1<< std::endl;
     std::cout << "negative uncertainty = " << x0-xmin1<< ", positive uncertainty = " << xmax1-x0<< std::endl;
@@ -237,15 +237,15 @@ void VBF2(){
     TCanvas *c = new TCanvas();
     std::cout << "--------------VBF----------------- "<< std::endl;
 
-    TF1 *f1 = new TF1("f1","-myFunc9(x)",1,5);
-    TF1 *f2 = new TF1("f2","myFunc10(x)",1,5);
+    TF1 *f1 = new TF1("f1","-myFunc9(x)",0,3);
+    TF1 *f2 = new TF1("f2","myFunc10(x)",0,3);
 
-    double x0 = f1->GetMinimumX(0,5);
+    double x0 = f1->GetMinimumX(0,3);
     double ymin = -myFunc9(x0);
     
     std::cout << "x0 = " << x0<< ", ymin = " << ymin<< std::endl;
-    double xmin1 = f2->GetX(1,1,x0);
-    double xmax1 = f2->GetX(1,x0,5);
+    double xmin1 = f2->GetX(1,0,x0);
+    double xmax1 = f2->GetX(1,x0,3);
     std::cout << "xmin = " << xmin1<< ", xmax = " << xmax1<< std::endl;
     std::cout << "negative uncertainty = " << x0-xmin1<< ", positive uncertainty = " << xmax1-x0<< std::endl;
 
