@@ -35,13 +35,13 @@ Double_t beta_gamma(Double_t tau){
 }
 
 
-Double_t fiction1(Double_t x){
+Double_t function1(Double_t x){
 
     Double_t f = 1 - pow(e, -2.0/(beta_gamma(x)*3*1E8*x));
     return f;
 }
 
-Double_t fiction2(Double_t x){
+Double_t function2(Double_t x){
 
     Double_t bg =  (sqrt(1.6*1.6-x*x))/x;
     Double_t f = 1 - pow(e, -2.0/(bg*3*1E8*lifetime(x)));
@@ -74,11 +74,11 @@ void Drawlifetime(){
     c->SaveAs("P3/1.png");
 }
 
-void fiction(){
+void Drawfunctions(){
 
     TCanvas *c = new TCanvas();
-    TF1 *f1 = new TF1("f1","fiction1(x)",5*1E-11,1E-8);
-    TF1 *f2 = new TF1("f2","fiction2(x)",0.001,0.05);
+    TF1 *f1 = new TF1("f1","function1(x)",5*1E-11,1E-8);
+    TF1 *f2 = new TF1("f2","function2(x)",0.001,0.05);
 
     f1->GetXaxis()->SetTitle("#tau_{H} (s)");
     f1->GetYaxis()->SetTitle("f");
@@ -133,8 +133,8 @@ void Crosssection(){
 
 void Analysis3(){
     
-    //Drawlifetime();
-    //fiction();
+    Drawlifetime();
+    Drawfunctions();
     Crosssection();
 
 
